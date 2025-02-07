@@ -1,20 +1,20 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
-import EvilIcons from '@expo/vector-icons/EvilIcons';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import 'react-native-get-random-values';
+import { GooglePlaceDetail, GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 interface SearchBar {
-  handlePress: () => void;
+  handlePress: (details: GooglePlaceDetail) => void;
 }
 
 const SearchBar = ({ handlePress }: SearchBar) => {
   return (
     <View style={styles.container}>
-      <EvilIcons name="search" color={'black'} size={24} />
-
       <GooglePlacesAutocomplete
         query={{ key: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY, language: 'en' }}
         placeholder="Enter destination"
+        fetchDetails={true}
+        onPress={(data, details) => handlePress(details as GooglePlaceDetail)}
       />
     </View>
   );
@@ -23,5 +23,11 @@ const SearchBar = ({ handlePress }: SearchBar) => {
 export default SearchBar;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    zIndex: 1,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    margin: 15,
+    borderRadius: 6,
+  },
 });
