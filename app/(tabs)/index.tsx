@@ -11,6 +11,17 @@ const index = () => {
   const [destination, setDestination] = useState<LatLng>({ latitude: 0, longitude: 0 });
   const map = useRef<MapView>(null);
 
+  const updateServer = async (lat: number, long: number) => {
+    const response = await fetch('backendServerUrl', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ latitude: lat, longitude: long }),
+    });
+
+    const data = await response.json();
+    // do something with the data recieved from the backend
+  };
+
   const getUserLocation = async () => {
     const location = await Location.getCurrentPositionAsync();
     setLocation(location.coords);
@@ -47,12 +58,12 @@ const index = () => {
     })();
   }, []);
 
-  let count = 0;
   const handleUserLocationUpdate = async (newLocation: Location.LocationObject) => {
-    count += 1;
-    console.log('new locaion!', count);
     const { latitude, longitude } = newLocation.coords;
     setLocation({ latitude, longitude });
+
+    // update backend server
+    // await updateServer(latitude, longitude);
   };
 
   // effect for destination change
