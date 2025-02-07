@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     margin: 15,
+    marginBottom: 0,
     borderRadius: 6,
   },
 });

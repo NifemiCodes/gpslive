@@ -5,6 +5,8 @@ import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import SearchBar from '@/components/SearchBar';
 import { GooglePlaceDetail } from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
+import Banner from '@/components/Banner';
+import StopButton from '@/components/StopButton';
 
 const index = () => {
   const [location, setLocation] = useState<LatLng>({ latitude: 0, longitude: 0 });
@@ -19,7 +21,7 @@ const index = () => {
     });
 
     const data = await response.json();
-    // do something with the data recieved from the backend
+    // do something with the data recieved from the backend. There is no backend as this is just an assessment project
   };
 
   const getUserLocation = async () => {
@@ -58,6 +60,15 @@ const index = () => {
     })();
   }, []);
 
+  // handle place selection
+  const handlePress = (details: GooglePlaceDetail) => {
+    const coords = {
+      latitude: details.geometry.location.lat,
+      longitude: details.geometry.location.lng,
+    };
+    setDestination(coords);
+  };
+
   const handleUserLocationUpdate = async (newLocation: Location.LocationObject) => {
     const { latitude, longitude } = newLocation.coords;
     setLocation({ latitude, longitude });
@@ -69,6 +80,10 @@ const index = () => {
   // effect for destination change
   useEffect(() => {
     let subscription: Location.LocationSubscription;
+
+    if (destination.longitude === 0 && destination.latitude === 0) {
+      return;
+    }
 
     (async () =>
       (subscription = await Location.watchPositionAsync(
@@ -83,18 +98,13 @@ const index = () => {
     return () => subscription.remove();
   }, [destination]);
 
-  // handle place selection
-  const handlePress = (details: GooglePlaceDetail) => {
-    const coords = {
-      latitude: details.geometry.location.lat,
-      longitude: details.geometry.location.lng,
-    };
-    setDestination(coords);
-  };
-
   return (
     <View style={styles.container}>
       <SearchBar handlePress={handlePress} />
+
+      {destination.latitude !== 0 && destination.longitude !== 0 && (
+        <Banner bannerText="Destination Selected. Tracking Location..." />
+      )}
 
       <MapView
         ref={map}
@@ -122,7 +132,7 @@ const index = () => {
           pinColor="lightblue"
         />
 
-        {destination.latitude != 0 && (
+        {destination.latitude !== 0 && destination.longitude !== 0 && (
           <>
             <Marker coordinate={destination} title="Destination" description="This is your end destination" />
 
@@ -136,6 +146,10 @@ const index = () => {
           </>
         )}
       </MapView>
+
+      {destination.latitude !== 0 && destination.longitude !== 0 && (
+        <StopButton handlePress={() => setDestination({ longitude: 0, latitude: 0 })} />
+      )}
     </View>
   );
 };
