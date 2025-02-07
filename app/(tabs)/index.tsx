@@ -109,7 +109,7 @@ const index = () => {
       <MapView
         ref={map}
         provider={PROVIDER_GOOGLE}
-        key={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}
+        key={process.env.GOOGLE_MAPS_API_KEY}
         style={styles.map}
         showsUserLocation={false}
         showsCompass={false}
@@ -139,7 +139,7 @@ const index = () => {
             <MapViewDirections
               origin={location}
               destination={destination}
-              apikey={process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY as string}
+              apikey={process.env.GOOGLE_MAPS_API_KEY as string}
               strokeWidth={3}
               strokeColor="red"
             />

@@ -11,7 +11,7 @@ const SearchBar = ({ handlePress }: SearchBar) => {
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete
-        query={{ key: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY, language: 'en' }}
+        query={{ key: process.env.GOOGLE_MAPS_API_KEY, language: 'en' }}
         placeholder="Enter destination"
         fetchDetails={true}
         onPress={(data, details) => handlePress(details as GooglePlaceDetail)}
