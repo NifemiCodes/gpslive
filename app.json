@@ -32,7 +32,9 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+
+      ["expo-location", { "locationAlwaysAndWhenInUsePermission": "Allow GPSLive to access your location" }]
     ],
     "experiments": {
       "typedRoutes": true
