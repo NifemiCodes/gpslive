@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     backgroundColor: 'white',
     flexDirection: 'row',
+    rowGap: 10,
     margin: 15,
     marginBottom: 0,
     borderRadius: 6,

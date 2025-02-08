@@ -139,7 +139,7 @@ const index = () => {
             <MapViewDirections
               origin={location}
               destination={destination}
-              apikey={process.env.GOOGLE_MAPS_API_KEY as string}
+              apikey={process.env.GOOGLE_MAPS_API_KEY || ''}
               strokeWidth={3}
               strokeColor="red"
             />
